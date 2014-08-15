@@ -1,4 +1,1 @@
-deprecated
-==========
-
-Manual server provisioning instructions (deprecated)
+Manual server provisioning instructions (deprecated).

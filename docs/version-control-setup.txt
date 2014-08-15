@@ -1,0 +1,83 @@
+Install git
+-----------
+
+sudo apt-get install git-core
+
+Configure git
+-------------
+
+Use git config, or edit ~/.gitconfig:
+
+	[user]
+		name = Example
+		email = example@example.com
+	[core]
+		editor = sublime
+	[color]
+		ui = true
+	[credential]
+		helper = cache --timeout=86400
+
+The email must match the one used to Authenticate on Github.
+
+More info: http://git-scm.com/book/ch7-1.html and https://help.github.com/articles/set-up-git
+
+#################################################
+# MIGRATING REPOSITORIES FROM SUBVERSION TO GIT #
+#################################################
+
+Install svn2git: https://github.com/nirvdrum/svn2git
+
+In an empty directory:
+
+	svn2git https://subversion.url -v 
+
+(If required), push to an empty Github repository:
+
+	git remote add github git@github.com:example/example.git
+	git push github master
+
+##########################
+# GIT COMMAND CHEATSHEET #
+##########################
+
+Clone Github repository to current directory
+--------------------------------------------
+
+Either clone with HTTPS (will need username and password), or clone with SSH (first follow the SSH key instructions here: https://help.github.com/articles/generating-ssh-keys): 
+
+	git clone https://github.com/example/example.git .
+	git clone git@github.com:example/example .
+
+Push back to Github
+-------------------
+
+	git push remote
+	git push remote branchName
+
+Create new local repository
+---------------------------
+
+	git init
+
+Push new local repository to empty Github repository
+----------------------------------------------------
+
+	git remote add origin git@github.com:example/example.git
+	git push -u origin master
+
+Add
+---
+
+	git add file.txt
+
+Commit
+------
+
+	git commit -m "commit message"
+
+Create a branch
+---------------
+
+	(just create): git branch branchName
+	(create and switch): git checkout -b branchName

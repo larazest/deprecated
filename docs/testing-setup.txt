@@ -1,0 +1,77 @@
+Install Selenium 2 Server
+-------------------------
+
+Install Java: sudo apt-get install openjdk-7-jdk
+
+Download Selenium server: http://docs.seleniumhq.org/download/
+
+	sudo mkdir /usr/lib/selenium/
+	sudo mv ~/Desktop/selenium-server-standalone-x.x.x.jar /usr/lib/selenium/selenium-server-standalone-x.x.x.jar			//replace x.x.x with downloaded Selenium version
+	sudo mkdir -p /var/log/selenium/
+	sudo chmod a+w /var/log/selenium/
+
+Then set up selenium as a service. Copy the script from the selenium directory in the repository. If needed, edit the script to match the selenium version number. 
+
+	sudo cp selenium/selenium /etc/init.d/selenium
+	sudo chmod 755 /etc/init.d/selenium
+	/etc/init.d/selenium start
+	sudo update-rc.d selenium defaults
+
+	more help: http://www.danstraw.com/installing-selenium-server-2-as-a-service-on-ubuntu/2010/09/23/
+
+Install PhantomJS
+-----------------
+
+The default package (sudo apt-get install phantomjs) is too old.
+
+Instead, download PhantomJS: http://phantomjs.org/download.html:
+
+	sudo mv phantomjs-x.x.x-linux-i686/ /usr/local/share/phantomjs-x.x.x-linux-i686/
+	sudo ln -s /usr/local/share/phantomjs-x.x.x-linux-i686/bin/phantomjs /usr/local/share/phantomjs
+	sudo ln -s /usr/local/share/phantomjs-x.x.x-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
+	sudo ln -s /usr/local/share/phantomjs-x.x.x-linux-i686/bin/phantomjs /usr/bin/phantomj
+		(replace x.x.x with downloaded version)
+
+It is not necessary to manually run PhantomJS (some instructions for older versions required invoking: phantomjs --webdriver=4444)
+
+Install XDebug
+--------------
+
+Only required for remote code coverage reports (i.e. if acceptance tests are to be included in the code coverage reports)
+
+	sudo apt-get install php5-xdebug
+
+Edit /etc/php5/mods-available/xdebug.ini. Add this line:
+	xdebug.remote_enable = 1
+
+Run Codeception
+---------------
+
+	(assumes Codeception has been added to composer.json, and that bootstrap has been run. When cloning a template project, this is already in place)
+
+To run Codeception, call:
+	vendor\bin\codecept run
+
+To rebuild Codeception classes after changing a *.suite.yml file:
+	vendor\bin\codecept build
+
+For results report:
+	vendor\bin\codecept run --html
+	(for report, see app/tests/_log/report.html)
+
+For code coverage report:
+	vendor\bin\codecept run --coverage --html
+	(for report, see: app/tests/_log/coverage/index.html)
+
+		Note - check Apache error log in cases of remote code coverage errors. 
+			Make sure c3tmp directory is writeable. Make sure path to c3.php in index.php is correct.
+			Run codeception with the -v option for more detailed errors. 
+
+NB: phantomJS cannot currently be used with code coverage (use Firefox): https://github.com/sebastianbergmann/phpunit-selenium/issues/261
+NB: remote code coverage (code coverage for acceptance tests) is not working: https://github.com/Codeception/Codeception/issues/578
+
+Todo
+----
+
+For using multiple databases, see:
+http://codeception.com/docs/03-ModulesAndHelpers

@@ -1,0 +1,65 @@
+How we code PHP
+---------------
+
+PHP: the right way. http://www.phptherightway.com/
+
+The same coding standards as the Laravel framework (PSR-0 and PSR-1 from http://www.php-fig.org). 
+
+	http://laravel.com/docs/contributing#coding-guidelines:
+		Laravel follows the PSR-0 and PSR-1 coding standards. In addition to these standards, below is a list of other coding standards that should be followed:
+
+		- Namespace declarations should be on the same line as <?php.
+		- Class opening { should be on the same line as the class name.
+		- Function and control structure opening { should be on a separate line.
+		- Interface names are suffixed with Interface (FooInterface)
+
+Static analysis is used to check standards are followed.
+
+	- PHP Code Sniffer. https://github.com/squizlabs/PHP_CodeSniffer
+	- The ruleset from BCA Inspector Tools for Laravel. https://github.com/brodkinca/BCA-Laravel-Inspect/blob/develop/rulesets/phpcs.xml
+
+How we version control
+----------------------
+
+Git. http://git-scm.com/
+Github hosting. https://github.com/
+
+How we track issues
+-------------------
+
+Github. https://github.com/
+
+How we build
+------------
+
+Phing. http://www.phing.info/
+
+How we test PHP
+---------------
+
+All tests via Codeception (http://codeception.com/)
+
+	- unit tests with PHPUnit and Mockery mocks
+	- functional tests
+	- acceptance tests with Selenium2 and Phantom.JS (or Firefox)
+	- code coverage reports
+
+How we test JavaScript
+----------------------
+
+Mocha (http://visionmedia.github.io/mocha/)
+
+How we automate
+---------------
+
+Jenkins. http://jenkins-ci.org/
+
+How we version releases
+-----------------------
+
+Semantic versioning (MAJOR.MINOR.PATCH). http://semver.org/
+
+How we create UI mockups
+------------------------
+
+Balsamiq: http://balsamiq.com/products/mockups/

@@ -1,0 +1,200 @@
+Install Operating system (when required)
+----------------------------------------
+
+Install Linux 12.04 LTS on VMWare:
+	http://extr3metech.wordpress.com/2012/10/14/installing-ubuntu-12-04-lts-on-virtualbox-with-screenshots-for-beginners/
+
+Fix the VMWare screen size: Select Devices | Install Guest Additions ...
+
+Update:
+
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get dist-upgrade
+
+(Optional) Install SSH Tools
+----------------------------
+
+	On the server, allow remote terminal access:
+		sudo apt-get install openssh-server
+
+	On the client, install putty
+		sudo apt-get install putty
+		(optional) sudo apt-get install putty-tools
+
+		File transfer
+		-------------
+
+			For Windows, try WinSCP: http://winscp.net/eng/index.php
+			For Linux, try: SCP
+
+Install Apache
+--------------
+
+	sudo apt-get install apache2
+
+	Enable mod_rewrite: sudo a2enmod rewrite
+
+	To restart Apache: sudo service apache2 restart
+	To test the Apache config: apache2ctl configtest
+
+Apache's default document root is /var/www on Ubuntu, and the configuration file is /etc/apache2/apache2.conf. Only edit httpd.conf, not apache2.conf (because apache2.conf may be overwritten by updates).
+
+Configure Apache (optional: SSL)
+--------------------------------
+
+	copy either apache/development *or* apache/production to /etc/apache2/sites-available/	
+
+		sudo a2ensite development	*OR*	sudo a2ensite production
+		sudo a2dissite default
+
+	For production, enable SSL:
+
+		sudo mkdir /etc/apache2/ssl 	//copy certificates here (see instructions from CA)
+		sudo a2enmod ssl
+
+	For production, be sure to edit the apache/development, changing̈́ 'example' to your site's domain name, and set the ServerAdmin email address.
+
+	(restart Apache)
+
+	More help:
+
+		disable a site: sudo a2dissite default
+		disable a module: sudo a2dismod ssl
+		generate self-signed cert: sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etcphpcv/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
+
+		http://softwareinabottle.wordpress.com/2011/12/18/setting-up-apache-http-server-with-ssl-support-on-ubuntudebian/
+		https://www.digitalocean.com/community/articles/how-to-create-a-ssl-certificate-on-apache-for-ubuntu-12-04
+
+Install MySQL
+-------------
+
+	sudo apt-get install mysql-server mysql-client
+
+Configure MySQL timezones:
+
+	mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+
+	More info: http://dev.mysql.com/doc/refman/5.6/en/mysql-tzinfo-to-sql.html
+	Bug fix:  http://stackoverflow.com/questions/18216198/unable-to-load-timezones
+
+Install PHP 5.4
+---------------
+
+Application requires PHP5.4. Do *not* use the default PHP5.3 installation packages (below):
+
+	sudo apt-get install php5 libapache2-mod-php5
+	(restart Apache)
+
+Instead, use Ondřej Surý's PHP5.4 package (php5-oldstable): https://launchpad.net/~ondrej/+archive/php5
+
+	sudo add-apt-repository ppa:ondrej/php5-oldstable (try 'sudo apt-get install python-software-properties' if add-apt-repository is not found)
+	sudo apt-get update
+	sudo apt-get install php5
+	(restart Apache)
+
+Additionally, we need to use the MySQL native driver for PHP http://dev.mysql.com/downloads/connector/php-mysqlnd/
+	(rationale: otherwise numeric types are returned as strings when running queries - http://stackoverflow.com/questions/20079320)
+
+	sudo apt-get remove php5-mysql
+	sudo apt-get install php5-mysqlnd
+
+(Optional) install MySQL Workbench
+----------------------------------
+
+Download the package from here:
+
+	http://dev.mysql.com/downloads/tools/workbench/
+
+Install dependencies:
+
+	sudo apt-get install libctemplate0 libgtkmm-2.4-1c2a libpcrecpp0 libtinyxml2.6.2 libzip2 python-paramiko python-pysqlite2
+
+Install MySQL Workbench:
+
+	sudo dpkg -i mysql-workbench-community-6.0.8-1ubu1204-i386.deb
+
+Install cURL
+------------
+
+	sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+
+Install mycrypt
+---------------
+
+	sudo apt-get install php5-mcrypt
+	(restart Apache)
+
+Install Composer (requires curl)
+--------------------------------
+
+	curl -sS https://getcomposer.org/installer | php
+	sudo mv composer.phar /usr/local/bin/composer
+
+Install phing
+-------------
+
+	sudo apt-get install php-pear
+	sudo pear channel-discover pear.phing.info
+	sudo pear install phing/phing
+
+##############################
+# WHEN INSTALLING GOES WRONG #
+##############################
+
+Reinstall Apache
+----------------
+
+	http://dancingpenguinsoflight.com/2009/02/how-to-completely-reset-an-apache-instance-in-ubuntu/
+
+Reinstall PHP
+-------------
+
+	apt-get remove --purge php5-common
+
+	To remove the PHP5.4 package (see also the ppa-purge answer): http://askubuntu.com/questions/307/how-can-ppas-be-removed
+	To reinstall a package: sudo apt-get install --reinstall php5-gmc
+	To see which PHP assets are installed: aptitude search php|grep "^i"
+	To list the installed PHP extensions: grep -Hrv ";" /etc/php5 | grep -i "extension="
+
+		http://serverfault.com/questions/35696/how-do-i-reinstall-php-on-my-system
+
+################
+# USEFUL TOOLS #
+################
+
+TightVNC (Windows-Linux remote desktop)
+---------------------------------------
+
+http://www.tightvnc.com/download.php
+
+Chrome
+------
+
+http://linuxg.net/how-to-install-google-chrome-on-ubuntu-12-04-ubuntu-12-10-linux-mint-13-linux-mint-14-or-debian-sid/
+
+Sublime
+-------
+
+http://www.technoreply.com/how-to-install-sublime-text-2-on-ubuntu-12-04-unity/
+
+####################
+# LINUX CHEATSHEET #
+####################
+
+	How to set up virtual hosts on Linux: https://www.digitalocean.com/community/articles/how-to-set-up-apache-virtual-hosts-on-ubuntu-12-04-lts
+
+	Get username: whoiami
+	Get user groups: groups mark
+
+	Find files (cached lookup): locate json.so
+	Search for files (slow): find / -name "php.ini"
+
+	Searching for text in all files in a directory: grep -R "json.so" /etc/php5/
+	Search for a phrase in a config output: php -i | grep -i ini
+
+	Change ownership: sudo chown mark /var/www/ -R
+	Change permissions: sudo chmod -R 777 storage
+
+	Find process using port: lsof -i:4444
+

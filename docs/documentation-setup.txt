@@ -1,0 +1,22 @@
+DocGen environment (for building HTML docs)
+-------------------------------------------
+
+Steps only required for Ubuntu server edition:
+
+	sudo apt-get install build-essential
+	sudo apt-get install libxrender1
+
+Steps required for all editions:
+
+	sudo apt-get install libxslt-dev libxml2-dev
+	sudo apt-get install ruby1.9.1 ruby1.9.1-dev
+
+	sudo gem install nokogiri
+	sudo gem install systemu
+	sudo gem install kramdown
+	sudo gem install kwalify
+
+	sudo cp wkhtmltopdf /usr/local/bin
+	sudo chmod 755 /usr/local/bin/wkhtmltopdf
+
+	Make sure the docs/user-guide directory is writeable

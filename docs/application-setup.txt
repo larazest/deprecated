@@ -1,0 +1,64 @@
+First follow the environment setup instructions!
+
+Automated setup (recommended)
+=============================
+
+Own the www directory
+---------------------
+
+	sudo chown mark /var/www/ -R
+
+Clone the repository from Github
+--------------------------------
+
+Set permissions
+---------------
+
+	chmod -R 777 app/storage
+
+Run build script
+----------------
+
+	phing
+
+Setup .htaccess
+---------------
+
+public/.htaccess is an untracked file (because it depends on the environment). 
+
+	1. Copy public∕.htaccess-template to public∕.htaccess
+	2. Edit public∕.htaccess to make sure the RewriteBase path matches the application base path. 
+
+Using both Laravel 3 and Laravel 4 together, or multiple Laravel apps
+---------------------------------------------------------------------
+
+You probably have to change the session name for each installation: http://stackoverflow.com/questions/16817635/i-install-laravel-4-0-and-got-these-error
+
+Alternative manual setup
+========================
+
+Clone the repository from Github
+--------------------------------
+
+Run Composer
+------------
+
+	composer install
+
+Add the ignored directories
+---------------------------
+
+	app/storage	/cache
+				/logs
+				/meta
+				/sessions
+				/views
+
+	app/tests/_log
+
+Install databases
+-----------------
+
+	CREATE DATABASE core;
+	CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+	GRANT ALL PRIVILEGES ON core.* TO 'user'@'localhost';

@@ -1,0 +1,10 @@
+PHP CodeSniffer
+---------------
+
+Simple usage (Lavarel standard), recommended*:
+	vendor\bin\phpcs app\Library\Thing.php --standard=phpcs-laravel.xml
+
+Simple usage (PSR-2 standard):
+	vendor\bin\phpcs app\Library\Thing.php --standard=PSR2
+
+More instructions: http://pear.php.net/manual/en/package.php.php-codesniffer.php
